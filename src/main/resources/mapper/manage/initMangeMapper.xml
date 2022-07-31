@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thecms.mapper.manage.InitManageMapper">
+
+
+    <select id="getMenuList" resultType="com.thecms.entity.manage.SystemMenu" >
+        SELECT id,menu_name,path,status,parent,icon,priority FROM db_menu;
+    </select>
+
+</mapper>
