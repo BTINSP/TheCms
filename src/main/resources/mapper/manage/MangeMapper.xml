@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thecms.mapper.manage.ManageMapper">
+
+
+    <select id="getMenuList" resultType="com.thecms.entity.manage.SystemMenu" >
+        SELECT id,menu_name,path,status,parent,icon,priority FROM the_menu;
+    </select>
+
+    <select id="getColumnList" resultType="com.thecms.entity.manage.ManageColumn">
+        SELECT id,column_name, status, sort_rank FROM the_column;
+    </select>
+
+    <insert id="addColumn">
+        INSERT INTO the_column(column_name,status,sort_rank) VALUES (#{column_name},#{status},#{sort_rank})
+    </insert>
+
+    <select id="checkColumn" resultType="boolean">
+        SELECT EXISTS(SELECT id,column_name,status,sort_rank
+                      FROM the_column WHERE
+                            id=#{id} AND
+                            column_name=#{column_name} AND
+                            status=#{status} AND
+                            sort_rank=#{sort_rank})
+    </select>
+
+    <delete id="deleteColumn">
+        DELETE FROM
+                   the_column
+               WHERE
+                   id=#{id} AND
+                   column_name=#{column_name} AND
+                   status=#{status} AND
+                   sort_rank=#{sort_rank}
+    </delete>
+
+    <update id="updateColumn">
+        UPDATE the_column SET
+                              column_name=#{update_column_name},
+                              status=#{update_status},
+                              sort_rank=#{update_sort_rank}
+                          WHERE
+                              id=#{id} AND
+                              column_name=#{column_name} AND
+                              status=#{status} AND
+                              sort_rank=#{sort_rank}
+    </update>
+
+    <update id="updateColumnStatus">
+        UPDATE the_column set status=#{status} WHERE id=#{id} AND column_name=#{column_name} AND sort_rank=#{sort_rank}
+    </update>
+
+
+</mapper>

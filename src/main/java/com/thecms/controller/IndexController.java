@@ -34,7 +34,7 @@ public class IndexController {
     @ResponseBody
     public Result getUser(){
         List<UserEntity> allUser = dialectMapper.getAllUser();
-        return Result.success(allUser);
+        return Result.success(200,"success",allUser);
     }
 
 }

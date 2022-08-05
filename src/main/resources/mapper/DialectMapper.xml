@@ -4,7 +4,7 @@
 <mapper namespace="com.thecms.mapper.DialectMapper">
 
     <select id="getAllUser" resultType="com.thecms.entity.UserEntity">
-        select * from db_user
+        select * from the_user
     </select>
 
 </mapper>
