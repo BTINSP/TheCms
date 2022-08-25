@@ -14,10 +14,24 @@ public class Result implements Serializable {
         return Result.success(200,msg,null);
     }
 
+    public static Result success(String msg,String data){
+        return Result.success(200,msg,data);
+    }
+
+    public static Result success(String msg,Object data){
+        return Result.success(200,msg,data);
+    }
     public static Result fail(String msg){
         return Result.fail(400,msg,null);
     }
 
+    public static Result fail(String msg,String data){
+        return Result.success(400,msg,data);
+    }
+
+    public static Result fail(String msg,Object data){
+        return Result.success(400,msg,data);
+    }
     public static Result success(Object object){
         return Result.success(200,"success",object);
     }

@@ -1,21 +1,15 @@
 package com.thecms.service.manage;
 
 import com.thecms.compenont.Result;
-import com.thecms.entity.manage.ManageColumn;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public interface ManageService {
 
-    Result getMenuList();
 
-    Result getColumnList();
-
-    Result addColumn(ManageColumn manageColumn);
-
-    Result deleteColumn(ManageColumn manageColumn);
-
-    Result updateColumn(ManageColumn updateManageColumn,ManageColumn manageColumn);
-
-    Result updateColumnStatus(ManageColumn manageColumn);
-
+    Result upload(MultipartFile multipartFile, HttpServletRequest httpServletRequest) throws IOException;
 
 }

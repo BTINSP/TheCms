@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thecms.mapper.manage.ArticleMapper">
+
+    <select id="getArticleList" resultType="com.thecms.entity.manage.ManageArticle">
+        SELECT id,article_name,cover_img,status,sort_rank,parent_id,content FROM the_article LIMIT #{start},#{size}
+    </select>
+
+    <select id="getArticleNameList" resultType="com.thecms.entity.manage.ManageArticle">
+        SELECT id,article_name,cover_img,status,sort_rank,parent_id FROM the_article LIMIT #{start},#{size}
+    </select>
+
+    <select id="getArticleContentById" resultType="com.thecms.entity.manage.ManageArticle">
+        SELECT content FROM the_article LIMIT #{start},#{size}
+    </select>
+
+    <insert id="addArticle">
+        INSERT into
+            the_article(article_name,cover_img,status,sort_rank,parent_id,content)
+        VALUES
+            (#{article_name},#{cover_img},#{status},#{sort_rank},#{parent_id},#{content})
+    </insert>
+
+</mapper>

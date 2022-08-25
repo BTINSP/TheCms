@@ -1,143 +1,68 @@
 package com.thecms.service.manage.impl;
 
-import com.thecms.entity.manage.ManageColumn;
-import com.thecms.entity.manage.SystemMenu;
-import com.thecms.mapper.manage.ManageMapper;
+
 import com.thecms.compenont.Result;
 import com.thecms.service.manage.ManageService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class ManageServiceImpl implements ManageService {
 
-    @Autowired
-    ManageMapper manageMapper;
+    private static final String STATIC_PATH = "static";
+    private static final String IMAGES_UPLOAD_PATH = "/upload/images/";
 
 
-    /****
-     * 菜单递归
-     * @param menu
-     * @param menuList
-     * @return List<SystemMenu>
-     */
-    public List<SystemMenu> getChildren(SystemMenu menu, List<SystemMenu> menuList){
-        List<SystemMenu> childList = new ArrayList<>();
-        menuList.forEach( e -> {
-            if (menu.getId() == e.getParent()){
-                childList.add(e);
+    @Override
+    public Result upload(MultipartFile multipartFile, HttpServletRequest httpServletRequest) throws IOException {
+        //  判断是否为空
+        if (multipartFile.isEmpty()) {
+            return Result.fail("空文件");
+        }
+        //  如果图片大于10M
+        if (multipartFile.getSize() > 10 *1024 * 1024){
+            return Result.fail("图片大于10M");
+        }
+
+        //  获取图片名称
+        String originalFilename = multipartFile.getOriginalFilename();
+        if (originalFilename == null){
+            return Result.fail("获取名称失败,请重试");
+        }
+
+        //  分割图片后缀
+        String originalFileSuffix  = originalFilename.substring(originalFilename.lastIndexOf("."));
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        String dataPath = simpleDateFormat.format(new Date());
+
+        //  获取classPath路径
+        String localPath = ResourceUtils.getURL("classpath:").getPath();
+
+        File targetFile = new File(localPath + STATIC_PATH + IMAGES_UPLOAD_PATH, dataPath);
+        if (!targetFile.exists()){
+            if (!targetFile.mkdirs()) {
+                return Result.fail("创建目录失败");
             }
-        });
-        childList.forEach( e -> {
-            e.setChildren(getChildren(e, menuList));
-        });
-        return childList;
-    }
-
-
-    /**
-     * 获取菜单列表
-     * @return
-     */
-    @Override
-    public Result getMenuList() {
-        List<SystemMenu> menuList = manageMapper.getMenuList();;
-
-        ArrayList<SystemMenu> rootMenus = new ArrayList<>();
-        menuList.forEach( menu -> {
-            if (menu.getParent() == 0 && menu.getStatus() == 0){
-                rootMenus.add(menu);
-            }
-        });
-
-        rootMenus.forEach( menu -> {
-            menu.setChildren(getChildren(menu, menuList));
-        });
-
-        return Result.success(rootMenus);
-    }
-
-    /**
-     * 获取栏目列表
-     * @return Result
-     */
-    @Override
-    public Result getColumnList() {
-        List<ManageColumn> columnList = manageMapper.getColumnList();
-        return Result.success(columnList);
-    }
-
-    /**
-     * 添加菜单
-     * @return
-     */
-    @Override
-    public Result addColumn(ManageColumn manageColumn) {
-        boolean status = manageMapper.addColumn(manageColumn.getColumn_name(), manageColumn.getStatus(), manageColumn.getSort_rank());
-        if (status){
-            return Result.success(200,"添加完成",null);
         }
-        return Result.fail(400,"添加失败",null);
-    }
 
-    @Override
-    public Result deleteColumn(ManageColumn manageColumn){
-        if (!manageMapper.checkColumn(
-                manageColumn.getId(),
-                manageColumn.getColumn_name(),
-                manageColumn.getStatus(),
-                manageColumn.getSort_rank()))
-        {
-            return Result.fail("未查询到栏目");
-        }
-        if (manageMapper.deleteColumn(
-                manageColumn.getId(),
-                manageColumn.getColumn_name(),
-                manageColumn.getStatus(),
-                manageColumn.getSort_rank()))
-        {
-            return Result.success("删除成功");
-        }
-        return Result.fail("删除失败");
-    }
+        String imgRandomName = UUID.randomUUID().toString();
+        File targetFileName = new File(targetFile,imgRandomName + originalFileSuffix);
 
-    /**
-     * 更新栏目
-     * @param updateManageColumn    更新数据
-     * @param manageColumn          目标数据
-     * @return                      Result
-     */
-    @Override
-    public Result updateColumn(ManageColumn updateManageColumn,ManageColumn manageColumn) {
-        boolean status = manageMapper.updateColumn(
-                updateManageColumn.getColumn_name(),
-                updateManageColumn.getStatus(),
-                updateManageColumn.getSort_rank(),
-                manageColumn.getId(),
-                manageColumn.getColumn_name(),
-                manageColumn.getStatus(),
-                manageColumn.getSort_rank()
-        );
-        if (status){
-            return Result.success("更新完成");
-        }
-        return Result.fail("更新失败");
-    }
+        //  保存图片
+        multipartFile.transferTo(targetFileName);
 
-    @Override
-    public Result updateColumnStatus(ManageColumn manageColumn) {
-        if (manageMapper.updateColumnStatus(
-                manageColumn.getId(),
-                manageColumn.getColumn_name(),
-                manageColumn.getStatus(),
-                manageColumn.getSort_rank()))
-        {
-            return Result.success("修改状态成功");
-        }
-        return Result.fail("修改状态失败");
-    }
+        HashMap<String, String> imagePathMessage = new HashMap<>();
+        imagePathMessage.put("path",IMAGES_UPLOAD_PATH + dataPath + "/" +  imgRandomName + originalFileSuffix);
 
+        return Result.success( "success",imagePathMessage);
+    }
 }
