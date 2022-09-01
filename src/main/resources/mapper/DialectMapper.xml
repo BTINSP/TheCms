@@ -7,4 +7,13 @@
         select * from the_user
     </select>
 
+
+    <select id="getArticleById" resultType="com.thecms.entity.ArticleEntity">
+        select id,article_name,cover_img,status,sort_rank,parent_id,content from the_article where parent_id = #{parent_id}
+    </select>
+
+    <select id="getColumn" resultType="com.thecms.entity.ColumnEntity">
+        select id,column_name,status,sort_rank,parent_id from the_column
+    </select>
+
 </mapper>

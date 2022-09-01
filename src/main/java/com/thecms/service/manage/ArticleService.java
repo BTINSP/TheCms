@@ -5,7 +5,8 @@ import com.thecms.entity.manage.ManageArticle;
 
 public interface ArticleService {
     Result getArticleList(int start,int size);
-
-
     Result addArticle(ManageArticle manageArticle);
+    Result deleteArticleById(int id);
+
+    Result updateArticle(ManageArticle manageArticle);
 }

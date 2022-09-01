@@ -1,6 +1,7 @@
 package com.thecms.mapper.manage;
 
 import com.thecms.entity.manage.ManageColumn;
+import com.thecms.entity.manage.ManageUser;
 import com.thecms.entity.manage.SystemMenu;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -10,6 +11,8 @@ import java.util.List;
 @Mapper
 public interface ManageMapper {
 
+   ManageUser checkUserByUsernameAndPassword(@Param("username")String username,@Param("password")String password);
+   ManageUser getUserByUsername(@Param("username")String username);
 
    List<SystemMenu> getMenuList();
 

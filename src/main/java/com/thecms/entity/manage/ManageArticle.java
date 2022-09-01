@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class ManageArticle {
+    @JsonProperty("key")
     private int id;
     @JsonProperty("articleName")
     private String article_name;

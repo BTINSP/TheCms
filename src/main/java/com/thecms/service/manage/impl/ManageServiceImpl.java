@@ -2,13 +2,17 @@ package com.thecms.service.manage.impl;
 
 
 import com.thecms.compenont.Result;
+import com.thecms.entity.manage.ManageUser;
+import com.thecms.mapper.manage.ManageMapper;
 import com.thecms.service.manage.ManageService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -20,6 +24,8 @@ public class ManageServiceImpl implements ManageService {
     private static final String STATIC_PATH = "static";
     private static final String IMAGES_UPLOAD_PATH = "/upload/images/";
 
+    @Autowired
+    private ManageMapper manageMapper;
 
     @Override
     public Result upload(MultipartFile multipartFile, HttpServletRequest httpServletRequest) throws IOException {
@@ -65,4 +71,24 @@ public class ManageServiceImpl implements ManageService {
 
         return Result.success( "success",imagePathMessage);
     }
+
+    @Override
+    public Result login(ManageUser manageUser, HttpServletRequest request) {
+        if (Objects.isNull(manageUser)){
+            return Result.fail("请输入信息");
+        }
+
+        ManageUser userByUsername = manageMapper.getUserByUsername(manageUser.getUsername());
+        if (Objects.isNull(userByUsername)){
+            return Result.fail("用户名或密码错误");
+        }
+        if (!userByUsername.getPassword().equals(manageUser.getPassword())){
+            return Result.fail("用户名或密码错误");
+        }
+
+        HttpSession session = request.getSession();
+        session.setAttribute("user",manageUser);
+        return Result.success("登录成功");
+    }
+
 }

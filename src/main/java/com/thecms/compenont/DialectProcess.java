@@ -1,5 +1,7 @@
 package com.thecms.compenont;
 
+import com.thecms.compenont.process.ForEachArticleElementTagProcess;
+import com.thecms.compenont.process.ForEachColumnElementTagProcess;
 import com.thecms.compenont.process.TheCmsForElementTagProcess;
 import com.thecms.mapper.DialectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class DialectProcess extends AbstractProcessorDialect {
         Set<IProcessor> processors = new HashSet<>();
 
         processors.add(new TheCmsForElementTagProcess(s,dialectMapper));
+        processors.add(new ForEachArticleElementTagProcess(s,dialectMapper));
+        processors.add(new ForEachColumnElementTagProcess(s,dialectMapper));
 
         return processors;
     }

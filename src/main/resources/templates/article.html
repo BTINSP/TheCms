@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="" >
+<head>
+    <meta charset="UTF-8">
+    <title>article</title>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <th>id</th>
+        <th>文章名称</th>
+        <th>缩略图</th>
+        <th>状态</th>
+        <th>优先级</th>
+        <th>所属栏目</th>
+        <th>内容</th>
+    </tr>
+
+    <th:article name="article" id="1">
+        <tr>
+            <td th:text="${article.id}"></td>
+            <td th:text="${article.article_name}"></td>
+            <td th:text="${article.cover_img}"></td>
+            <td th:text="${article.status}"></td>
+            <td th:text="${article.sort_rank}"></td>
+            <td th:text="${article.parent_id}"></td>
+            <td th:text="${article.content}"></td>
+        </tr>
+    </th:article>
+</table>
+
+
+
+
+</body>
+</html>

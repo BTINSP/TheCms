@@ -22,10 +22,19 @@ public class ArticleController {
     }
 
     @PostMapping("addArticle")
-    public Result addArticle(@RequestBody ManageArticle manageArticle) throws JsonProcessingException {
-        System.out.println(manageArticle);
+    public Result addArticle(@RequestBody ManageArticle manageArticle){
         return articleService.addArticle(manageArticle);
     }
 
+    @PostMapping("deleteArticleById")
+    public Result deleteArticleById(@RequestBody ManageArticle manageArticle){
+        return articleService.deleteArticleById(manageArticle.getId());
+    }
+
+    @PostMapping("updateArticle")
+    public Result updateArticle(@RequestBody ManageArticle manageArticle){
+        System.out.println(manageArticle);
+        return articleService.updateArticle(manageArticle);
+    }
     
 }

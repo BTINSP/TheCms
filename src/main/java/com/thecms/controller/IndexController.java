@@ -15,10 +15,6 @@ import java.util.List;
 @Controller
 public class IndexController {
 
-    @Autowired
-    DialectMapper dialectMapper;
-
-
     @GetMapping("/")
     @ResponseBody
     public String Index(){
@@ -30,11 +26,14 @@ public class IndexController {
         return "Dialect";
     }
 
-    @GetMapping("/get")
-    @ResponseBody
-    public Result getUser(){
-        List<UserEntity> allUser = dialectMapper.getAllUser();
-        return Result.success(200,"success",allUser);
+    @GetMapping("/article")
+    public String Article(){
+        return "article";
+    }
+
+    @GetMapping("/column")
+    public String Column(){
+        return "column";
     }
 
 }

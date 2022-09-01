@@ -26,4 +26,16 @@ public interface ArticleMapper {
             @Param("content")String content
     );
 
+    boolean deleteArticleById(@Param("id")int id);
+
+    boolean updateArticle(
+            @Param("article_id")int article_id,
+            @Param("article_name")String article_name,
+            @Param("cover_img")String cover_img,
+            @Param("status")int status,
+            @Param("sort_rank")int sort_rank,
+            @Param("parent_id")int parent_id,
+            @Param("content")String content
+    );
+
 }

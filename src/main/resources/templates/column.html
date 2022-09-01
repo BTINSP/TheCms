@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="" >
+<head>
+    <meta charset="UTF-8">
+    <title>column</title>
+</head>
+<body>
+
+<table th:border="1">
+  <tr>
+    <th>id</th>
+    <th>栏目名称</th>
+    <th>状态</th>
+    <th>优先级</th>
+    <th>所属栏目</th>
+  </tr>
+
+  <th:column name="column">
+    <tr>
+      <td th:text="${column.id}"></td>
+      <td th:text="${column.column_name}"></td>
+      <td th:text="${column.status}"></td>
+      <td th:text="${column.sort_rank}"></td>
+      <td th:text="${column.parent_id}"></td>
+    </tr>
+  </th:column>
+</table>
+
+</body>
+</html>

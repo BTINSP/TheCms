@@ -22,4 +22,24 @@
             (#{article_name},#{cover_img},#{status},#{sort_rank},#{parent_id},#{content})
     </insert>
 
+    <delete id="deleteArticleById">
+        DELETE FROM
+            the_article
+        WHERE
+            id=#{id}
+    </delete>
+
+    <update id="updateArticle">
+        UPDATE
+            the_article
+        SET
+            <if test="article_name!=null">article_name=#{article_name},</if>
+            <if test="status!=null">status=#{status},</if>
+            <if test="sort_rank!=null">sort_rank=#{sort_rank},</if>
+            <if test="cover_img!=null">cover_img=#{cover_img},</if>
+            <if test="parent_id!=null">parent_id=#{parent_id},</if>
+            <if test="content!=null">content=#{content}</if>
+        WHERE
+            id=#{article_id}
+    </update>
 </mapper>

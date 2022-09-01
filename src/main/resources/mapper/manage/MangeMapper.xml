@@ -3,6 +3,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thecms.mapper.manage.ManageMapper">
 
+    <select id="checkUserByUsernameAndPassword" resultType="com.thecms.entity.manage.ManageUser">
+        select * from the_admin where username=#{username} and password=#{password}
+    </select>
+
+    <select id="getUserByUsername" resultType="com.thecms.entity.manage.ManageUser">
+        select id,username,password from the_admin where username = #{username}
+    </select>
 
     <select id="getMenuList" resultType="com.thecms.entity.manage.SystemMenu" >
         SELECT id,menu_name,path,status,parent,icon,priority FROM the_menu;

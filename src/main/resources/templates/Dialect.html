@@ -1,14 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="">
+<html lang="en" xmlns:th="" >
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 
-    <th:for>
-        <h1>1</h1>
+    <th:for name="testName">
+        <td th:text="${list.username}"></td>
     </th:for>
 
+
+    <th:article id="1" name="article">
+        <td th:text="${article.article_name}"></td>
+    </th:article>
+
+    <th:column name="column">
+        <td th:text="${column.column_name}"></td>
+    </th:column>
 </body>
 </html>
